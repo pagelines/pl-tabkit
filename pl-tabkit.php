@@ -2,7 +2,7 @@
 /*
 Plugin Name: TabKit
 Plugin URI: http://www.pagelines.com
-Description:
+Description: TabKit is a self-contained, custom post type section. TabKit will display your categories across the top and list your posts below.   
 Author: PageLines
 PageLines: true
 Version: 1.0
