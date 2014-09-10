@@ -30,10 +30,14 @@ class PL_TabKit extends PageLinesSection {
     }
 
     function archive() {
-        echo 'archive';
+        echo 'archive<br />';
         if( have_posts() )
             while ( have_posts() ) : the_post();
-            the_content();
+			global $post;
+			printf( '<a href="%s">%s</a><br />', get_permalink( $post->ID ), get_the_title() );
+			
+			
+            the_excerpt();
             endwhile;
     }
 
