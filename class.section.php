@@ -44,9 +44,11 @@ class PL_TabKit extends PageLinesSection {
 
     function nav() {
         $cats = tabkit_get_categories();
+        echo "<ul>";
         foreach( $cats as $cat ) {
-            printf( '<a href="%s">%s</a><br />', $cat['link'], $cat['name'] );
+            printf( '<li><a href="%s">%s</a></li>', $cat['link'], $cat['name'] );
         }
+        echo "</ul>";
     }
 
     function section_opts(){
