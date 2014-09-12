@@ -24,14 +24,14 @@ class PL_TabKit extends PageLinesSection {
     }
 
     function single() {
-        echo 'single';
+        // echo 'single';
 
         the_content();
         the_tags();
     }
 
     function archive() {
-        echo 'archive<br />';
+        // echo 'archive<br />';
         if( have_posts() )
             while ( have_posts() ) : the_post();
 			global $post;
