@@ -35,10 +35,22 @@ class PL_TabKit extends PageLinesSection {
         if( have_posts() )
             while ( have_posts() ) : the_post();
 			global $post;
-			printf( '<a href="%s">%s</a><br />', get_permalink( $post->ID ), get_the_title() );
-			
-			
-            the_excerpt();
+			printf( '
+                <div class="tabkit-post">
+                    <h3><a href="%s">%s</a></h3>
+                    <span class="tabkit-icon"><i class="icon icon-tutorial"></i></span>
+                    <div class="tabkit-meta">
+                        <span class="pl-karma">9999999</span>
+                        <span class="tabkit-author">by %s </span>
+                        <span class="tabkit-tag">tagged in %s </span>
+                        <span class="tabkit-comments">%s </span>
+                        <span class="tabkit-time">%s </span>
+                    </div>
+
+
+                
+                </div><!-- end .tabkit-post -->', get_permalink( $post->ID ), get_the_title(), the_author(), the_tags(), comments_number( 'no comments', '1 comment', '% comments' ),the_time('F jS, Y') );
+
             endwhile;
     }
 
