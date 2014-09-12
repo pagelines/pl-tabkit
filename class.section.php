@@ -12,13 +12,14 @@ class PL_TabKit extends PageLinesSection {
     function section_template() {
 
 
-
+        echo "<div class='section-tabkit'>";
         echo $this->nav();
 
         if( is_single() )
             $this->single();
         else
             $this->archive();
+        echo "</div>";
 
     }
 
