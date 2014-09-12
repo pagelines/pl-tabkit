@@ -45,11 +45,18 @@ class PL_TabKit extends PageLinesSection {
 
     function nav() {
         $cats = tabkit_get_categories();
-        echo '<ul class="tabkit-tabs style1">';
+        echo '<div class="filter-bar">
+                <ul class="tabkit-filters style1">';
         foreach( $cats as $cat ) {
             printf( '<li><a href="%s">%s</a></li>', $cat['link'], $cat['name'] );
         }
-        echo "</ul>";
+        echo '
+          </ul>
+          <ul class="tabkit-secondary-filters style1">
+            <li class="current"><a href="#">New</a></li><li><a href="#">Trending</a></li><li><a href="#">Popular</a></li>
+          </ul>
+        </div><!-- end .filter-bar -->
+        ';
     }
 
     function section_opts(){
