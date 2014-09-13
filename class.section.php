@@ -35,6 +35,21 @@ class PL_TabKit extends PageLinesSection {
         if( have_posts() )
             while ( have_posts() ) : the_post();
 			global $post;
+
+            $num_comments = get_comments_number();
+            if ( comments_open() ) {
+                if ( $num_comments == 0 ) {
+                    $comments = __('No Comments');
+                } elseif ( $num_comments > 1 ) {
+                    $comments = $num_comments . __(' Comments');
+                } else {
+                    $comments = __('1 Comment');
+                }
+                $tabkit_comments = $comments;
+            } else {
+                $tabkit_comments =  __('Comments are off for this post.');
+            }
+
 			printf( '
                 <div class="tabkit-post">
                     <h3><a href="%s">%s</a></h3>
@@ -49,7 +64,14 @@ class PL_TabKit extends PageLinesSection {
 
 
                 
-                </div><!-- end .tabkit-post -->', get_permalink( $post->ID ), get_the_title(), the_author(), the_tags(), comments_number( 'no comments', '1 comment', '% comments' ),the_time('F jS, Y') );
+                </div><!-- end .tabkit-post -->', 
+                get_permalink( $post->ID ), 
+                get_the_title(), 
+                get_the_author(), 
+                get_the_tag_list(' ', ', '), 
+                $tabkit_comments,
+                get_the_time('F jS, Y') 
+                );
 
             endwhile;
     }
