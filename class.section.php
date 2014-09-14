@@ -55,7 +55,7 @@ class PL_TabKit extends PageLinesSection {
                     <h3><a href="%s">%s</a></h3>
                     <span class="tabkit-icon"><i class="icon icon-file-code-o"></i></span>
                     <div class="tabkit-meta">
-                        <span class="pl-karma">9999999</span>
+                        <span class="pl-karma tabkit-karma">9999999</span>
                         <span class="tabkit-author">by %s </span>
                         <span class="tabkit-tag">tagged in %s </span>
                         <span class="tabkit-comments">%s </span>
