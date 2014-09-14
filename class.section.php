@@ -53,7 +53,7 @@ class PL_TabKit extends PageLinesSection {
 			printf( '
                 <div class="tabkit-post">
                     <h3><a href="%s">%s</a></h3>
-                    <span class="tabkit-icon"><i class="icon icon-tutorial"></i></span>
+                    <span class="tabkit-icon"><i class="icon icon-file-code-o"></i></span>
                     <div class="tabkit-meta">
                         <span class="pl-karma">9999999</span>
                         <span class="tabkit-author">by %s </span>
