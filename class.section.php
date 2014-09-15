@@ -59,10 +59,10 @@ class PL_TabKit extends PageLinesSection {
                 <div class="tabkit-post">
                     <h3><a href="%s">%s</a></h3>
                     <span class="tabkit-icon">
-                        <span class="icon-stack">
-                          <i class="icon icon-circle icon-stack"></i>
-                          <i class="icon icon-file-code-o icon-stack icon-inverse"></i>
-                        </span>
+                       <span class="icon-stack">
+                            <i class="icon icon-circle icon-stack-2x icon-3x"></i>
+                            <i class="icon fa-file-text-o icon-stack-1x icon-inverse"></i>
+                        </span> 
                     </span>
                     <div class="tabkit-meta">
                         <span class="tabkit-karma">%s</span>
