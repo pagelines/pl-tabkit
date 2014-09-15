@@ -112,9 +112,7 @@ class PL_TabKit extends PageLinesSection {
         }
         echo '</ul>';
           printf( '<ul class="tabkit-secondary-filters style1">
-            <li class="%s"><a href="%s">New</a></li>
-			<li class="%s"><a href="%s">Trending</a></li>
-			<li class="%s"><a href="%s">Popular</a></li>
+            <li class="%s"><a href="%s">New</a></li><li class="%s"><a href="%s">Trending</a></li><li class="%s"><a href="%s">Popular</a></li>
           </ul>',
 			$classes['new'],			
 			add_query_arg( array( 'post_type' => 'tabkit', 'sort_by' => 'new' ), site_url() ),
