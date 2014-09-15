@@ -30,6 +30,7 @@
 					text-transform: uppercase;
 					letter-spacing:1px;
 					display: block;
+					font-weight: 600;
 				}
 			}
 			&.style1{
@@ -72,12 +73,6 @@
 						border-right: 1px solid #DFDFDF;
 						margin-left: -1px;
 					}
-					&:first-child a{
-						.border-radius(4px 0 0 0);
-					}
-					&:last-child a{
-						.border-radius(0 4px 0 0);
-					}
 					&:hover{
 						background: #f1f1f1;
 						a{
@@ -107,6 +102,7 @@
 			font-size: 20px;
 			font-weight: 400;
 		}
+
 		.tabkit-icon{
 			position: absolute;
 			right: 14px;
@@ -114,12 +110,6 @@
 			margin-top: -16px;
 			font-size: 18px;
 			color: @pl-link;
-			i.icon-circle{
-				font-size: 42px;
-			}
-			i.icon-file-code-o{
-				font-size: 18px;
-			}
 		}
 		.tabkit-meta{
 			font-size: 13px;
@@ -133,6 +123,9 @@
 				padding: 0 3px 0 4px;
 				margin: 0;
 			}
+			span.pl-social-icon:after{
+				content: none;
+			}
 			a{
 				padding-bottom: 2px;
 				border-bottom: 1px solid #E0E0E0;
@@ -144,13 +137,25 @@
 				}
 				 
 			}
+			.tabkit-karma{
+				.pl-karma{
+					border-bottom: none;
+				}
+			}
+			
 		}
 		.tabkit-karma {
-			color: #F38176;
-			a{
-				color: #F38176;
-				&:visited{
-					color: fadeout(#F38176, 10%);
+			
+			a,
+			.pl-social-icon{
+				
+				&:hover,
+				&:visited,
+				&.loved{
+					color: #F38176;
+					i{
+						color: #F38176;
+					}
 				}
 			}
 
