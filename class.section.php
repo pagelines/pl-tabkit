@@ -6,7 +6,7 @@ class PL_TabKit extends PageLinesSection {
     function section_scripts(){}
 
     function section_head() {
-        add_filter( 'term_links-post_tag', array( $this, 'tag_fix' ) );
+		add_filter( 'term_links-post_tag', array( $this, 'tag_fix' ) );
     }
 
     function section_template() {
@@ -60,7 +60,7 @@ class PL_TabKit extends PageLinesSection {
                         </span>
                     </span>
                     <div class="tabkit-meta">
-                        <span class="pl-karma"><span class="tabkit-karma"><i class="icon icon-heart"></i></span></span>
+                        <span class="tabkit-karma">%s</span>
                         <span class="tabkit-author">by %s </span>
                         <span class="tabkit-tag">tagged in %s </span>
                         <span class="tabkit-comments">%s </span>
@@ -71,7 +71,8 @@ class PL_TabKit extends PageLinesSection {
                 
                 </div><!-- end .tabkit-post -->', 
                 get_permalink( $post->ID ), 
-                get_the_title(), 
+                get_the_title(),
+				do_shortcode( '[pl_karma icon="heart"]'),
                 get_the_author(), 
                 get_the_tag_list(' ', ', '), 
                 $tabkit_comments,
