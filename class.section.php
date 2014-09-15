@@ -9,6 +9,11 @@ class PL_TabKit extends PageLinesSection {
 		add_filter( 'term_links-post_tag', array( $this, 'tag_fix' ) );
     }
 
+	function section_persistent() {
+		add_filter( 'pre_get_posts', array( $this, 'sort_tabs' ) );
+	}
+
+
     function section_template() {
 
 
@@ -84,24 +89,48 @@ class PL_TabKit extends PageLinesSection {
 
 
     function nav() {
+	
+		global $post;
         $cats = tabkit_get_categories();
         echo '<div class="filter-bar">
                 <ul class="tabkit-filters style1">';
         foreach( $cats as $cat ) {
             printf( '<li><a href="%s">%s</a></li>', $cat['link'], $cat['name'] );
         }
-        echo '
-          </ul>
-          <ul class="tabkit-secondary-filters style1">
-            <li class="current"><a href="#">New</a></li><li><a href="#">Trending</a></li><li><a href="#">Popular</a></li>
-          </ul>
-        </div><!-- end .filter-bar -->
-        ';
+        echo '</ul>';
+          printf( '<ul class="tabkit-secondary-filters style1">
+            <li class="current"><a href="%s">New</a></li><li><a href="%s">Trending</a></li><li><a href="%s">Popular</a></li>
+          </ul>',
+			add_query_arg( array( 'post_type' => 'tabkit' ), site_url() ),
+			add_query_arg( array( 'post_type' => 'tabkit', 'sort_by' => 'trending' ), site_url() ),
+			add_query_arg( array( 'post_type' => 'tabkit', 'sort_by' => 'popular' ), site_url() )
+			);
+          
+        echo '</div><!-- end .filter-bar -->';
     }
 
     function section_opts(){
         return array();
     }
+
+	function sort_tabs( $query ) {
+		
+		if( ! isset( $_REQUEST['post_type'] ) || ! isset( $_REQUEST['sort_by'] ) )
+			return;
+		
+		if( 'tabkit' == $_REQUEST['post_type'] && 'popular' == $_REQUEST['sort_by'] ) {
+			$query->set('meta_key', '_pl_karma');
+			$query->set('order', 'DESC');
+			$query->set('orderby','meta_value_num');
+		}
+		
+		if( 'tabkit' == $_REQUEST['post_type'] && 'trending' == $_REQUEST['sort_by'] ) {
+			$query->set( 'orderby', 'comment_count' );
+		}
+		
+		
+		
+	}
 
     function tag_fix( $links ) {
 
