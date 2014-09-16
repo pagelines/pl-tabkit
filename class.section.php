@@ -90,7 +90,20 @@ class PL_TabKit extends PageLinesSection {
 
     function nav() {
 	
-		global $post;
+		$classes = array(
+			'new'	=> '',
+			'trending'	=> '',
+			'popular'	=> ''
+		);
+	
+		if( isset( $_REQUEST['sort_by'] ) ) {
+			$classes[$_REQUEST['sort_by']] = 'current';
+		} else {
+			$classes['new'] = 'current';
+		}
+			
+		
+		
         $cats = tabkit_get_categories();
         echo '<div class="filter-bar">
                 <ul class="tabkit-filters style1">';
@@ -99,10 +112,13 @@ class PL_TabKit extends PageLinesSection {
         }
         echo '</ul>';
           printf( '<ul class="tabkit-secondary-filters style1">
-            <li class="current"><a href="%s">New</a></li><li><a href="%s">Trending</a></li><li><a href="%s">Popular</a></li>
+            <li class="%s"><a href="%s">New</a></li><li class="%s"><a href="%s">Trending</a></li><li class="%s"><a href="%s">Popular</a></li>
           </ul>',
-			add_query_arg( array( 'post_type' => 'tabkit' ), site_url() ),
+			$classes['new'],			
+			add_query_arg( array( 'post_type' => 'tabkit', 'sort_by' => 'new' ), site_url() ),
+			$classes['trending'],
 			add_query_arg( array( 'post_type' => 'tabkit', 'sort_by' => 'trending' ), site_url() ),
+			$classes['popular'],
 			add_query_arg( array( 'post_type' => 'tabkit', 'sort_by' => 'popular' ), site_url() )
 			);
           
