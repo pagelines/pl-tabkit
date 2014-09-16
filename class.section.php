@@ -30,7 +30,7 @@ class PL_TabKit extends PageLinesSection {
 
     function single() {
         // echo 'single';
-
+        ?><h1 class="tabkit-title"><?php the_title() ?></h1><?php ;
         the_content();
         the_tags();
     }
