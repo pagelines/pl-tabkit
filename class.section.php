@@ -41,8 +41,7 @@ class PL_TabKit extends PageLinesSection {
                         <span class="tabkit-comments">%s </span>
                         <span class="tabkit-time">%s </span>
                     </div>
-
-
+                    %s
                 
                 </div><!-- end .tabkit-post -->', 
                 get_the_title(),
@@ -50,11 +49,9 @@ class PL_TabKit extends PageLinesSection {
                 get_the_author(), 
                 get_the_tag_list(' ', ', '), 
                 $tabkit_comments,
-                get_the_time('F jS, Y') 
+                get_the_time('F jS, Y'),
+                the_content()
                 );
-        ?><h1 class="tabkit-title"><?php the_title() ?></h1><?php ;
-        the_content();
-        the_tags();
     }
 
     function archive() {
