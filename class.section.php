@@ -38,17 +38,17 @@ class PL_TabKit extends PageLinesSection {
                         <span class="tabkit-karma">%s</span>
                         <span class="tabkit-author">by %s </span>
                         <span class="tabkit-tag">tagged in %s </span>
-                        <span class="tabkit-comments">%s </span>
                         <span class="tabkit-time">%s </span>
                     </div>
-                    %s
+                    <div class="tabkit-post-content">
+                        %s
+                    </div>
                 
                 </div><!-- end .tabkit-post -->', 
                 get_the_title(),
                 do_shortcode( '[pl_karma icon="heart"]'),
                 get_the_author(), 
                 get_the_tag_list(' ', ', '), 
-                $tabkit_comments,
                 get_the_time('F jS, Y'),
                 the_content()
                 );
