@@ -141,11 +141,26 @@ class PL_TabKit extends PageLinesSection {
 		}
 		
 		if( 'tabkit' == $_REQUEST['post_type'] && 'trending' == $_REQUEST['sort_by'] ) {
+
+			$comment_posts = array();
+
+			$comments_query = new WP_Comment_Query;
+			
+			$args = array(
+			 	'date_query' => array(
+				        array(
+				            'after' => '1 month ago',
+				        ),
+				    )
+			);
+					
+			$comments = $comments_query->query( $args );
+			foreach( $comments as $k => $comment ) {
+				$comment_posts[] = $comment->comment_post_ID;
+			}
 			$query->set( 'orderby', 'comment_count' );
-		}
-		
-		
-		
+			$query->set ( 'post__in', $comment_posts ); 
+		}		
 	}
 
     function tag_fix( $links ) {
