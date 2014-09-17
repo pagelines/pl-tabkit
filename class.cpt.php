@@ -30,7 +30,7 @@ class PL_TabKit_CPT {
 		'label'               => __( 'tabkit', 'pagelines' ),
 		'description'         => __( 'Custom Post Type for TabKit Section', 'pagelines' ),
 		'labels'              => $labels,
-		'supports'            => array( 'title', 'editor', 'excerpt', 'author', 'comments', 'revisions', 'custom-fields', 'page-attributes', ),
+		'supports'            => array( 'title', 'editor', 'excerpt', 'author', 'comments', 'revisions', 'custom-fields', 'page-attributes', 'thumbnail', ),
 		'taxonomies'          => array( 'post_tag' ),
 		'hierarchical'        => false,
 		'public'              => true,
