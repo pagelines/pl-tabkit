@@ -96,6 +96,7 @@ class PL_TabKit extends PageLinesSection {
 			'trending'	=> '',
 			'popular'	=> ''
 		);
+
 	
 		if( isset( $_REQUEST['sort_by'] ) ) {
 			$classes[$_REQUEST['sort_by']] = 'current';
@@ -106,10 +107,18 @@ class PL_TabKit extends PageLinesSection {
 		
 		
         $cats = tabkit_get_categories();
+
+		$o = get_queried_object( );
+
         echo '<div class="filter-bar">
                 <ul class="tabkit-filters style1">';
         foreach( $cats as $cat ) {
-            printf( '<li><a href="%s">%s</a></li>', $cat['link'], $cat['name'] );
+			$cat_current = '';
+	
+			if( $cat['name'] == $o->name )
+				$cat_current = 'current';
+	
+            printf( '<li class="%s"><a href="%s">%s</a></li>', $cat_current, $cat['link'], $cat['name'] );
         }
         echo '</ul>';
           printf( '<ul class="tabkit-secondary-filters style1">
