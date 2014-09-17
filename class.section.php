@@ -31,6 +31,27 @@ class PL_TabKit extends PageLinesSection {
 
     function single() {
         // echo 'single';
+        printf( '
+                <div class="tabkit-post">
+                    <h3>%s</h3>
+                    <div class="tabkit-meta">
+                        <span class="tabkit-karma">%s</span>
+                        <span class="tabkit-author">by %s </span>
+                        <span class="tabkit-tag">tagged in %s </span>
+                        <span class="tabkit-comments">%s </span>
+                        <span class="tabkit-time">%s </span>
+                    </div>
+
+
+                
+                </div><!-- end .tabkit-post -->', 
+                get_the_title(),
+                do_shortcode( '[pl_karma icon="heart"]'),
+                get_the_author(), 
+                get_the_tag_list(' ', ', '), 
+                $tabkit_comments,
+                get_the_time('F jS, Y') 
+                );
         ?><h1 class="tabkit-title"><?php the_title() ?></h1><?php ;
         the_content();
         the_tags();
