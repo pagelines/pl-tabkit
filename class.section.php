@@ -7,16 +7,26 @@ class PL_TabKit extends PageLinesSection {
 
     function section_head() {
 		add_filter( 'term_links-post_tag', array( $this, 'tag_fix' ) );
+		add_filter( 'pre_get_posts', array( $this, 'sort_tabs' ) );	
 		
     }
 
 	function section_persistent() {
-	add_filter( 'pre_get_posts', array( $this, 'sort_tabs' ) );	
+		
 	}
 
 
     function section_template() {
 
+		global $wp_query;
+
+		$args = array(
+			'post_type' => 'tabkit',
+			'posts_per_page' => get_option( 'posts_per_page' )
+			
+		);
+
+		$wp_query = new WP_Query( $args );
 
         echo "<div class='section-tabkit'>";
         echo $this->nav();
@@ -159,19 +169,13 @@ class PL_TabKit extends PageLinesSection {
 
 	function sort_tabs( $query ) {
 		
-		$query->set("post_type", "tabkit");
-		$query->set("posts_per_page", get_option( 'posts_per_page' ) );
-		
-		if( ! isset( $_REQUEST['post_type'] ) || ! isset( $_REQUEST['sort_by'] ) )
-			return;
-		
-		if( 'tabkit' == $_REQUEST['post_type'] && 'popular' == $_REQUEST['sort_by'] ) {
+		if( isset( $_REQUEST['sort_by'] ) && 'popular' == $_REQUEST['sort_by'] ) {
 			$query->set('meta_key', '_pl_karma');
 			$query->set('order', 'DESC');
 			$query->set('orderby','meta_value_num');
 		}
 		
-		if( 'tabkit' == $_REQUEST['post_type'] && 'trending' == $_REQUEST['sort_by'] ) {
+		if( isset( $_REQUEST['sort_by'] ) && 'trending' == $_REQUEST['sort_by'] ) {
 
 			$comment_posts = array();
 
