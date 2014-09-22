@@ -16,21 +16,32 @@ class PL_TabKit extends PageLinesSection {
 
     function section_template() {
 
-		global $wp_query;
+		global $wp_query, $paged;
 		
 		$cat = get_query_var('tabkit_category');
+		if ( get_query_var( 'paged' ) ) {
+		    $paged = get_query_var('paged');
+		} elseif ( get_query_var( 'page' ) ) {
+		    $paged = get_query_var( 'page' );
+		} else {
+		    $paged = 1;
+		}
+
 		$args = array(
 			'post_type' => 'tabkit',
-			'posts_per_page' => get_option( 'posts_per_page' ),
-			'tabkit_category'	=> $cat
+			'posts_per_page' => 6,
+
+			'tabkit_category'	=> $cat,
+			'paged'	=> $paged,
 		);
 		
+		if( ! is_archive() && ! is_single() ) {
 			
-		
-		
-		if( 'tabkit' != get_post_type() )
+			var_dump( 'here' );
+			var_dump( $args );
 			$wp_query = new WP_Query( $args );
-
+		}
+			
         echo "<div class='section-tabkit'>";
         echo $this->nav();
 
@@ -39,7 +50,6 @@ class PL_TabKit extends PageLinesSection {
         else
             $this->archive();
         echo "</div>";
-
     }
 
     function single() {
@@ -117,6 +127,8 @@ class PL_TabKit extends PageLinesSection {
                 );
 
             endwhile;
+
+			pagelines_pagination();
     }
 
 
@@ -175,7 +187,16 @@ class PL_TabKit extends PageLinesSection {
 		if( is_admin() )
 			return $query;
 
+		if ( get_query_var( 'paged' ) ) {
+		    $paged = get_query_var('paged');
+		} elseif ( get_query_var( 'page' ) ) {
+		    $paged = get_query_var( 'page' );
+		} else {
+		    $paged = 1;
+		}
+
 		$query->set( 'posts_per_page', get_option( 'posts_per_page' ) );
+		$query->set( 'paged', $paged );
 
 		if( isset( $_REQUEST['sort_by'] ) && 'popular' == $_REQUEST['sort_by'] ) {
 			$query->set('meta_key', '_pl_karma');
