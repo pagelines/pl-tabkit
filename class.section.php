@@ -36,9 +36,6 @@ class PL_TabKit extends PageLinesSection {
 		);
 		
 		if( ! is_archive() && ! is_single() ) {
-			
-			var_dump( 'here' );
-			var_dump( $args );
 			$wp_query = new WP_Query( $args );
 		}
 			
