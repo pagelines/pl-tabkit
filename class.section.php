@@ -50,7 +50,7 @@ class PL_TabKit extends PageLinesSection {
                 get_the_author(), 
                 get_the_tag_list(' ', ', '), 
                 get_the_time('F jS, Y'),
-                the_content()
+                get_the_content()
                 );
     }
 
