@@ -7,11 +7,11 @@ class PL_TabKit extends PageLinesSection {
 
     function section_head() {
 		add_filter( 'term_links-post_tag', array( $this, 'tag_fix' ) );
-		add_filter( 'pre_get_posts', array( $this, 'sort_tabs' ) );
+		
     }
 
 	function section_persistent() {
-		
+	add_filter( 'pre_get_posts', array( $this, 'sort_tabs' ) );	
 	}
 
 
