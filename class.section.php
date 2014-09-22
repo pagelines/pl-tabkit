@@ -160,7 +160,7 @@ class PL_TabKit extends PageLinesSection {
 	function sort_tabs( $query ) {
 		
 		$query->set("post_type", "tabkit");
-		$query->set("posts_per_page", -1);
+		$query->set("posts_per_page", get_option( 'posts_per_page' ) );
 		
 		if( ! isset( $_REQUEST['post_type'] ) || ! isset( $_REQUEST['sort_by'] ) )
 			return;
