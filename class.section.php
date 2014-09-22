@@ -14,19 +14,19 @@ class PL_TabKit extends PageLinesSection {
 		add_filter( 'pre_get_posts', array( $this, 'sort_tabs' ) );
 	}
 
-
     function section_template() {
 
 		global $wp_query;
-
+		
+		$cat = get_query_var('tabkit_category');
 		$args = array(
 			'post_type' => 'tabkit',
-			'posts_per_page' => get_option( 'posts_per_page' )
-			
+			'posts_per_page' => get_option( 'posts_per_page' ),
+			'tabkit_category'	=> $cat
 		);
 		
 			
-		add_filter( 'query_vars', array( $this, 'query_vars' ) );
+		
 		
 		if( 'tabkit' != get_post_type() )
 			$wp_query = new WP_Query( $args );
@@ -174,6 +174,8 @@ class PL_TabKit extends PageLinesSection {
 		
 		if( is_admin() )
 			return $query;
+
+		$query->set( 'posts_per_page', get_option( 'posts_per_page' ) );
 
 		if( isset( $_REQUEST['sort_by'] ) && 'popular' == $_REQUEST['sort_by'] ) {
 			$query->set('meta_key', '_pl_karma');
