@@ -25,8 +25,8 @@ class PL_TabKit extends PageLinesSection {
 			'posts_per_page' => get_option( 'posts_per_page' )
 			
 		);
-
-		$wp_query = new WP_Query( $args );
+		if( 'tabkit' != get_post_type() )
+			$wp_query = new WP_Query( $args );
 
         echo "<div class='section-tabkit'>";
         echo $this->nav();
