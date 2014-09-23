@@ -7,11 +7,19 @@ class PL_TabKit extends PageLinesSection {
 
     function section_head() {
 		add_filter( 'term_links-post_tag', array( $this, 'tag_fix' ) );
-		
+		add_filter( 'pless_vars', array( $this, 'add_less_vars' ) );
     }
 
 	function section_persistent() {
 		add_filter( 'pre_get_posts', array( $this, 'sort_tabs' ) );
+		add_filter('pless_vars', array( $this, 'add_less_vars'));
+	}
+
+	function add_less_vars( $vars ) {
+		
+		$color = pl_setting( 'tk_color', array( 'default' => '337EFF' ) );
+		$vars['tk-link'] = pl_hashify( $color );
+		return $vars;		
 	}
 
     function section_template() {
@@ -196,18 +204,6 @@ class PL_TabKit extends PageLinesSection {
 		if( $out ) {
 			return sprintf( '<ul class="tabkit-secondary-filters style1">%s</ul>', $out );
 		}
-		
-		
-		// printf( '<ul class="tabkit-secondary-filters style1">
-		//             <li class="%s"><a href="%s">New</a></li><li class="%s"><a href="%s">Trending</a></li><li class="%s"><a href="%s">Popular</a></li>
-		//           </ul>',
-		// 	$classes['new'],			
-		// 	add_query_arg( array( 'post_type' => 'tabkit', 'sort_by' => 'new' ), site_url() ),
-		// 	$classes['trending'],
-		// 	add_query_arg( array( 'post_type' => 'tabkit', 'sort_by' => 'trending' ), site_url() ),
-		// 	$classes['popular'],
-		// 	add_query_arg( array( 'post_type' => 'tabkit', 'sort_by' => 'popular' ), site_url() )
-		// 	);
 	}
 
     function section_opts(){
@@ -232,7 +228,6 @@ class PL_TabKit extends PageLinesSection {
 						
 					)
 				)
-
 			),
 			array(
 				'type'	=> 'multi',
@@ -257,6 +252,14 @@ class PL_TabKit extends PageLinesSection {
 						'key'	=> 'disable_popular',
 						'default'	=> false,
 						'label'		=> __( 'Disable POPULAR')
+					),
+					array(
+						'type'	=> 'color',
+						'key'	=> 'tk_color',
+						'label'	=> __( 'Header Color', 'pagelines' ),
+						'default'	=> '337EFF',
+						'scope'	=> 'global'
+						
 					)
 				)
 			)
