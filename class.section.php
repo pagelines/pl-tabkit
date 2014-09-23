@@ -30,7 +30,6 @@ class PL_TabKit extends PageLinesSection {
 		$args = array(
 			'post_type' => 'tabkit',
 			'posts_per_page' => 6,
-
 			'tabkit_category'	=> $cat,
 			'paged'	=> $paged,
 		);
@@ -50,26 +49,31 @@ class PL_TabKit extends PageLinesSection {
     }
 
     function single() {
-        // echo 'single';
+        
+		if( $this->opt( 'single_meta' ) ) {
+			$meta = do_shortcode( $this->opt( 'single_meta' ) );
+		} else {
+			$meta = sprintf( '<span class="tabkit-karma">%s</span>
+            <span class="tabkit-author">by %s </span>
+            <span class="tabkit-tag">tagged in %s </span>
+            <span class="tabkit-time">%s </span>',
+			do_shortcode( '[pl_karma icon="heart"]'),
+            get_the_author(), 
+            get_the_tag_list(' ', ', '), 
+            get_the_time('F jS, Y') );
+		}
+		
         printf( '
                 <div class="tabkit-post">
                     <h3>%s</h3>
-                    <div class="tabkit-meta">
-                        <span class="tabkit-karma">%s</span>
-                        <span class="tabkit-author">by %s </span>
-                        <span class="tabkit-tag">tagged in %s </span>
-                        <span class="tabkit-time">%s </span>
-                    </div>
+                    <div class="tabkit-meta">%s</div>
                     <div class="tabkit-post-content">
                         %s
                     </div>
                 
                 </div><!-- end .tabkit-post -->', 
                 get_the_title(),
-                do_shortcode( '[pl_karma icon="heart"]'),
-                get_the_author(), 
-                get_the_tag_list(' ', ', '), 
-                get_the_time('F jS, Y'),
+				$meta,
                 apply_filters( 'the_content', get_the_content() )
                 );
     }
@@ -94,6 +98,22 @@ class PL_TabKit extends PageLinesSection {
                 $tabkit_comments =  __('Comments are off for this post.');
             }
 
+			if( $this->opt( 'archive_meta' ) ) {
+				$meta = do_shortcode( $this->opt( 'archive_meta' ) );
+			} else {
+				$meta = sprintf( '<span class="tabkit-karma">%s</span>
+	            				<span class="tabkit-author">by %s </span>
+	            				<span class="tabkit-tag">tagged in %s </span>
+	            				<span class="tabkit-comments">%s </span>
+	            				<span class="tabkit-time">%s </span>',
+				do_shortcode( '[pl_karma icon="heart"]'),
+	            get_the_author(), 
+	            get_the_tag_list(' ', ', '), 
+	            $tabkit_comments,
+	            get_the_time('F jS, Y')
+	 		);
+			}
+
 			printf( '
                 <div class="tabkit-post">
                     <h3><a href="%s">%s</a></h3>
@@ -103,24 +123,11 @@ class PL_TabKit extends PageLinesSection {
                             <i class="icon fa-file-text-o icon-stack-1x icon-inverse"></i>
                         </span> 
                     </span>
-                    <div class="tabkit-meta">
-                        <span class="tabkit-karma">%s</span>
-                        <span class="tabkit-author">by %s </span>
-                        <span class="tabkit-tag">tagged in %s </span>
-                        <span class="tabkit-comments">%s </span>
-                        <span class="tabkit-time">%s </span>
-                    </div>
-
-
-                
+                    <div class="tabkit-meta">%s</div>             
                 </div><!-- end .tabkit-post -->', 
                 get_permalink( $post->ID ), 
                 get_the_title(),
-				do_shortcode( '[pl_karma icon="heart"]'),
-                get_the_author(), 
-                get_the_tag_list(' ', ', '), 
-                $tabkit_comments,
-                get_the_time('F jS, Y') 
+				$meta
                 );
 
             endwhile;
@@ -161,22 +168,103 @@ class PL_TabKit extends PageLinesSection {
             printf( '<li class="%s"><a href="%s">%s</a></li>', $cat_current, $cat['link'], $cat['name'] );
         }
         echo '</ul>';
-          printf( '<ul class="tabkit-secondary-filters style1">
-            <li class="%s"><a href="%s">New</a></li><li class="%s"><a href="%s">Trending</a></li><li class="%s"><a href="%s">Popular</a></li>
-          </ul>',
-			$classes['new'],			
-			add_query_arg( array( 'post_type' => 'tabkit', 'sort_by' => 'new' ), site_url() ),
-			$classes['trending'],
-			add_query_arg( array( 'post_type' => 'tabkit', 'sort_by' => 'trending' ), site_url() ),
-			$classes['popular'],
-			add_query_arg( array( 'post_type' => 'tabkit', 'sort_by' => 'popular' ), site_url() )
-			);
-          
+
+		echo $this->get_sorting( $classes );
+		   
         echo '</div><!-- end .filter-bar -->';
     }
 
+	function get_sorting( $classes ) {
+	
+		$out = '';
+		$sorts = array(
+			'new'	=> __( 'New', 'pagelines' ),
+			'trending'	=> __( 'Trending', 'pagelines' ),
+			'popular'	=> __( 'Popular', 'pagelines' )
+		);
+		
+		foreach( $sorts as $k => $sort ) {
+			if( '1' !== $this->opt( "disable_$k" ) ) {
+				$out .= sprintf( '<li class="%s"><a href="%s">%s</a></li>',
+					$classes[$k],
+					add_query_arg( array( 'post_type' => 'tabkit', 'sort_by' => $k ), site_url() ),
+					$sort
+					);
+			}
+		}
+
+		if( $out ) {
+			return sprintf( '<ul class="tabkit-secondary-filters style1">%s</ul>', $out );
+		}
+		
+		
+		// printf( '<ul class="tabkit-secondary-filters style1">
+		//             <li class="%s"><a href="%s">New</a></li><li class="%s"><a href="%s">Trending</a></li><li class="%s"><a href="%s">Popular</a></li>
+		//           </ul>',
+		// 	$classes['new'],			
+		// 	add_query_arg( array( 'post_type' => 'tabkit', 'sort_by' => 'new' ), site_url() ),
+		// 	$classes['trending'],
+		// 	add_query_arg( array( 'post_type' => 'tabkit', 'sort_by' => 'trending' ), site_url() ),
+		// 	$classes['popular'],
+		// 	add_query_arg( array( 'post_type' => 'tabkit', 'sort_by' => 'popular' ), site_url() )
+		// 	);
+	}
+
     function section_opts(){
-        return array();
+	
+		$opts = array(
+
+			array(
+				'type'	=> 'multi',
+				'key'	=> 'tabkit',
+				'title'	=> __( 'Meta Config', 'pagelines' ),
+				'col'	=> 1,
+				'opts'	=> array(
+					array(
+						'type'	=> 'text',
+						'key'	=> 'archive_meta',
+						'label'	=> __( 'Custom Archive Meta', 'pagelines' )
+					),
+					array(
+						'type'	=> 'text',
+						'key'	=> 'single_meta',
+						'label'	=> __( 'Single Meta', 'pagelines' )
+						
+					)
+				)
+
+			),
+			array(
+				'type'	=> 'multi',
+				'key'	=> 'tabkit2',
+				'title'	=> __( 'Sorting Options', 'pagelines' ),
+				'col'	=> 2,
+				'opts'	=> array(
+					array(
+						'type'	=> 'check',
+						'key'	=> 'disable_new',
+						'default'	=> false,
+						'label'		=> __( 'Disable NEW')
+					),
+					array(
+						'type'	=> 'check',
+						'key'	=> 'disable_trending',
+						'default'	=> false,
+						'label'		=> __( 'Disable TRENDING')
+					),
+					array(
+						'type'	=> 'check',
+						'key'	=> 'disable_popular',
+						'default'	=> false,
+						'label'		=> __( 'Disable POPULAR')
+					)
+				)
+			)
+
+
+		);
+		
+		return $opts;
     }
 
 	function sort_tabs( $query ) {
