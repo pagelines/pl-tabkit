@@ -125,12 +125,12 @@ class PL_TabKit extends PageLinesSection {
 			printf( '
                 <div class="tabkit-post">
                     <h3><a href="%s">%s</a></h3>
-                    <span class="tabkit-icon">
+                    <!-- <span class="tabkit-icon">
                        <span class="icon-stack">
                             <i class="icon icon-circle icon-stack-2x icon-3x"></i>
                             <i class="icon fa-file-text-o icon-stack-1x icon-inverse"></i>
                         </span> 
-                    </span>
+                    </span> -->
                     <div class="tabkit-meta">%s</div>             
                 </div><!-- end .tabkit-post -->', 
                 get_permalink( $post->ID ), 
