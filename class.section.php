@@ -8,11 +8,13 @@ class PL_TabKit extends PageLinesSection {
     function section_head() {
 		add_filter( 'term_links-post_tag', array( $this, 'tag_fix' ) );
 		add_filter( 'pless_vars', array( $this, 'add_less_vars' ) );
+		
     }
 
 	function section_persistent() {
+
+		add_filter('pless_vars', array( $this, 'add_less_vars'));		
 		add_filter( 'pre_get_posts', array( $this, 'sort_tabs' ) );
-		add_filter('pless_vars', array( $this, 'add_less_vars'));
 	}
 
 	function add_less_vars( $vars ) {
@@ -42,7 +44,7 @@ class PL_TabKit extends PageLinesSection {
 			'paged'	=> $paged,
 		);
 		
-		if( ! is_archive() && ! is_single() ) {
+		if( ! is_single() ) {
 			$wp_query = new WP_Query( $args );
 		}
 			
@@ -226,6 +228,14 @@ class PL_TabKit extends PageLinesSection {
 						'key'	=> 'single_meta',
 						'label'	=> __( 'Single Meta', 'pagelines' )
 						
+					),
+					array(
+						'type'	=> 'check',
+						'key'	=> 'tk_front',
+						'label'	=> __( 'Enable TabKit on Front Page', 'pagelines' ),
+						'default'	=> 'false',
+						'scope'	=> 'global',
+						'help'	=> 'If you have added TabKit in place of the postloop on the front page of your site, enable this.'
 					)
 				)
 			),
@@ -272,7 +282,9 @@ class PL_TabKit extends PageLinesSection {
 
 	function sort_tabs( $query ) {
 		
-		if( is_admin() )
+		global $tktype;
+
+		if( is_admin()  )
 			return $query;
 
 		if ( get_query_var( 'paged' ) ) {
@@ -282,6 +294,10 @@ class PL_TabKit extends PageLinesSection {
 		} else {
 		    $paged = 1;
 		}
+
+		 if( pl_setting( 'tk_front' ) && $query->is_main_query() )
+			$query->set( 'post_type', 'tabkit' );
+		
 
 		$query->set( 'posts_per_page', get_option( 'posts_per_page' ) );
 		$query->set( 'paged', $paged );
