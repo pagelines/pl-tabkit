@@ -75,7 +75,7 @@ class PL_TabKit extends PageLinesSection {
 		
         printf( '
                 <div class="tabkit-post">
-                    <h3>%s</h3>
+                    <h1>%s</h1>
                     <div class="tabkit-meta">%s</div>
                     <div class="tabkit-post-content">
                         %s
@@ -126,7 +126,7 @@ class PL_TabKit extends PageLinesSection {
 
 			printf( '
                 <div class="tabkit-post">
-                    <h3><a href="%s">%s</a></h3>
+                    <h1><a href="%s">%s</a></h1>
                     <!-- <span class="tabkit-icon">
                        <span class="icon-stack">
                             <i class="icon icon-circle icon-stack-2x icon-3x"></i>
