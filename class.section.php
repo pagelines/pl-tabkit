@@ -226,7 +226,8 @@ class PL_TabKit extends PageLinesSection {
 					array(
 						'type'	=> 'text',
 						'key'	=> 'single_meta',
-						'label'	=> __( 'Single Meta', 'pagelines' )
+						'label'	=> __( 'Single Meta', 'pagelines' ),
+						'ref'			=> __( 'Use shortcodes to control the dynamic information in your metabar. Example shortcodes you can use are: <ul><li><strong>[post_categories]</strong> - List of categories</li><li><strong>[post_edit]</strong> - Link for admins to edit the post</li><li><strong>[post_tags]</strong> - List of post tags</li><li><strong>[post_comments]</strong> - Link to post comments</li><li><strong>[post_author_posts_link]</strong> - Author and link to archive</li><li><strong>[post_author_link]</strong> - Link to author URL</li><li><strong>[post_author]</strong> - Post author with no link</li><li><strong>[post_time]</strong> - Time of post</li><li><strong>[post_date]</strong> - Date of post</li><li><strong>[post_type]</strong> - Type of post</li></ul>', 'pagelines' )
 						
 					),
 					array(
