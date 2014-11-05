@@ -8,26 +8,26 @@ class PL_TabKit extends PageLinesSection {
     function section_head() {
 		add_filter( 'term_links-post_tag', array( $this, 'tag_fix' ) );
 		add_filter( 'pless_vars', array( $this, 'add_less_vars' ) );
-		
+
     }
 
 	function section_persistent() {
 
-		add_filter('pless_vars', array( $this, 'add_less_vars'));		
+		add_filter('pless_vars', array( $this, 'add_less_vars'));
 		add_filter( 'pre_get_posts', array( $this, 'sort_tabs' ) );
 	}
 
 	function add_less_vars( $vars ) {
-		
+
 		$color = pl_setting( 'tk_color', array( 'default' => '337EFF' ) );
 		$vars['tk-link'] = pl_hashify( $color );
-		return $vars;		
+		return $vars;
 	}
 
     function section_template() {
 
 		global $wp_query, $paged;
-		
+
 		$cat = get_query_var('tabkit_category');
 		if ( get_query_var( 'paged' ) ) {
 		    $paged = get_query_var('paged');
@@ -43,11 +43,11 @@ class PL_TabKit extends PageLinesSection {
 			'tabkit_category'	=> $cat,
 			'paged'	=> $paged,
 		);
-		
+
 		if( ! is_single() ) {
 			$wp_query = new WP_Query( $args );
 		}
-			
+
         echo "<div class='section-tabkit'>";
         echo $this->nav();
 
@@ -59,7 +59,7 @@ class PL_TabKit extends PageLinesSection {
     }
 
     function single() {
-        
+
 		if( $this->opt( 'single_meta' ) ) {
 			$meta = do_shortcode( $this->opt( 'single_meta' ) );
 		} else {
@@ -68,11 +68,11 @@ class PL_TabKit extends PageLinesSection {
             <span class="tabkit-tag">tagged in %s </span>
             <span class="tabkit-time">%s </span>',
 			do_shortcode( '[pl_karma icon="heart"]'),
-            get_the_author(), 
-            get_the_tag_list(' ', ', '), 
+            get_the_author(),
+            get_the_tag_list(' ', ', '),
             get_the_time('F jS, Y') );
 		}
-		
+
         printf( '
                 <div class="tabkit-post">
                     <h1>%s</h1>
@@ -80,8 +80,8 @@ class PL_TabKit extends PageLinesSection {
                     <div class="tabkit-post-content">
                         %s
                     </div>
-                
-                </div><!-- end .tabkit-post -->', 
+
+                </div><!-- end .tabkit-post -->',
                 get_the_title(),
 				$meta,
                 apply_filters( 'the_content', get_the_content() )
@@ -117,8 +117,8 @@ class PL_TabKit extends PageLinesSection {
 	            				<span class="tabkit-comments">%s </span>
 	            				<span class="tabkit-time">%s </span>',
 				do_shortcode( '[pl_karma icon="heart"]'),
-	            get_the_author(), 
-	            get_the_tag_list(' ', ', '), 
+	            get_the_author(),
+	            get_the_tag_list(' ', ', '),
 	            $tabkit_comments,
 	            get_the_time('F jS, Y')
 	 		);
@@ -131,11 +131,11 @@ class PL_TabKit extends PageLinesSection {
                        <span class="icon-stack">
                             <i class="icon icon-circle icon-stack-2x icon-3x"></i>
                             <i class="icon fa-file-text-o icon-stack-1x icon-inverse"></i>
-                        </span> 
+                        </span>
                     </span> -->
-                    <div class="tabkit-meta">%s</div>             
-                </div><!-- end .tabkit-post -->', 
-                get_permalink( $post->ID ), 
+                    <div class="tabkit-meta">%s</div>
+                </div><!-- end .tabkit-post -->',
+                get_permalink( $post->ID ),
                 get_the_title(),
 				$meta
                 );
@@ -147,22 +147,22 @@ class PL_TabKit extends PageLinesSection {
 
 
     function nav() {
-	
+
 		$classes = array(
 			'new'	=> '',
 			'trending'	=> '',
 			'popular'	=> ''
 		);
 
-	
+
 		if( isset( $_REQUEST['sort_by'] ) ) {
 			$classes[$_REQUEST['sort_by']] = 'current';
 		} else {
 			$classes['new'] = 'current';
 		}
-			
-		
-		
+
+
+
         $cats = tabkit_get_categories();
 
 		$o = get_queried_object( );
@@ -171,28 +171,28 @@ class PL_TabKit extends PageLinesSection {
                 <ul class="tabkit-filters style1">';
         foreach( $cats as $cat ) {
 			$cat_current = '';
-	
+
 			if( $cat['name'] == $o->name )
 				$cat_current = 'current';
-	
+
             printf( '<li class="%s"><a href="%s">%s</a></li>', $cat_current, $cat['link'], $cat['name'] );
         }
         echo '</ul>';
 
 		echo $this->get_sorting( $classes );
-		   
+
         echo '</div><!-- end .filter-bar -->';
     }
 
 	function get_sorting( $classes ) {
-	
+
 		$out = '';
 		$sorts = array(
 			'new'	=> __( 'New', 'pagelines' ),
 			'trending'	=> __( 'Trending', 'pagelines' ),
 			'popular'	=> __( 'Popular', 'pagelines' )
 		);
-		
+
 		foreach( $sorts as $k => $sort ) {
 			if( '1' !== $this->opt( "disable_$k" ) ) {
 				$out .= sprintf( '<li class="%s"><a href="%s">%s</a></li>',
@@ -209,7 +209,7 @@ class PL_TabKit extends PageLinesSection {
 	}
 
     function section_opts(){
-	
+
 		$opts = array(
 
 			array(
@@ -228,7 +228,7 @@ class PL_TabKit extends PageLinesSection {
 						'key'	=> 'single_meta',
 						'label'	=> __( 'Single Meta', 'pagelines' ),
 						'ref'			=> __( 'Use shortcodes to control the dynamic information in your metabar. Example shortcodes you can use are: <ul><li><strong>[post_categories]</strong> - List of categories</li><li><strong>[post_edit]</strong> - Link for admins to edit the post</li><li><strong>[post_tags]</strong> - List of post tags</li><li><strong>[post_comments]</strong> - Link to post comments</li><li><strong>[post_author_posts_link]</strong> - Author and link to archive</li><li><strong>[post_author_link]</strong> - Link to author URL</li><li><strong>[post_author]</strong> - Post author with no link</li><li><strong>[post_time]</strong> - Time of post</li><li><strong>[post_date]</strong> - Date of post</li><li><strong>[post_type]</strong> - Type of post</li></ul>', 'pagelines' )
-						
+
 					),
 					array(
 						'type'	=> 'check',
@@ -270,19 +270,19 @@ class PL_TabKit extends PageLinesSection {
 						'label'	=> __( 'Header Color', 'pagelines' ),
 						'default'	=> '337EFF',
 						'scope'	=> 'global'
-						
+
 					)
 				)
 			)
 
 
 		);
-		
+
 		return $opts;
     }
 
 	function sort_tabs( $query ) {
-		
+
 		global $tktype;
 
 		if( is_admin()  )
@@ -296,25 +296,26 @@ class PL_TabKit extends PageLinesSection {
 		    $paged = 1;
 		}
 
-		 if( pl_setting( 'tk_front' ) && $query->is_main_query() )
-			$query->set( 'post_type', 'tabkit' );
-		
-
-		$query->set( 'posts_per_page', get_option( 'posts_per_page' ) );
-		$query->set( 'paged', $paged );
+    if( pl_setting( 'tk_front' ) && $query->is_main_query() ) {
+      $query->set( 'posts_per_page', get_option( 'posts_per_page' ) );
+      $query->set( 'paged', $paged );
+      $query->set( 'post_type', 'tabkit' );
+    }
 
 		if( isset( $_REQUEST['sort_by'] ) && 'popular' == $_REQUEST['sort_by'] ) {
 			$query->set('meta_key', '_pl_karma');
 			$query->set('order', 'DESC');
 			$query->set('orderby','meta_value_num');
+      $query->set( 'posts_per_page', get_option( 'posts_per_page' ) );
+      $query->set( 'paged', $paged );
 		}
-		
+
 		if( isset( $_REQUEST['sort_by'] ) && 'trending' == $_REQUEST['sort_by'] ) {
 
 			$comment_posts = array();
 
 			$comments_query = new WP_Comment_Query;
-			
+
 			$args = array(
 			 	'date_query' => array(
 				        array(
@@ -322,14 +323,16 @@ class PL_TabKit extends PageLinesSection {
 				        ),
 				    )
 			);
-					
+
 			$comments = $comments_query->query( $args );
 			foreach( $comments as $k => $comment ) {
 				$comment_posts[] = $comment->comment_post_ID;
 			}
 			$query->set( 'orderby', 'comment_count' );
-			$query->set ( 'post__in', $comment_posts ); 
-		}		
+			$query->set ( 'post__in', $comment_posts );
+      $query->set( 'posts_per_page', get_option( 'posts_per_page' ) );
+      $query->set( 'paged', $paged );
+		}
 	}
 
     function tag_fix( $links ) {
